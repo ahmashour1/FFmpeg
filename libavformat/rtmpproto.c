@@ -2805,8 +2805,10 @@ static int rtmp_write(URLContext *s, const uint8_t *buf, int size)
             rt->out_pkt.extra = rt->stream_id;
             rt->flv_data = rt->out_pkt.data;
 
-            if (pkttype == RTMP_PT_NOTIFY)
+            if (pkttype == RTMP_PT_NOTIFY) {
+                av_log(s, AV_LOG_ERROR, "calling @setDataFrame\n");
                 ff_amf_write_string(&rt->flv_data, "@setDataFrame");
+            }
         }
 
         if (rt->flv_size - rt->flv_off > size_temp) {
